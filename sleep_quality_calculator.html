@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>睡眠质量计算器</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 200px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>睡眠质量计算器</h1>
+    <form id="sleepForm">
+        <label for="heartRate">心率（每分钟心跳数）：</label>
+        <input type="number" id="heartRate" required>
+
+        <label for="respirationRate">呼吸率（每分钟呼吸次数）：</label>
+        <input type="number" id="respirationRate" required>
+
+        <label for="bodyTemperature">体温（摄氏度）：</label>
+        <input type="number" id="bodyTemperature" required>
+
+        <label for="pulse">脉搏（每分钟脉搏数）：</label>
+        <input type="number" id="pulse" required>
+
+        <button type="submit">计算睡眠质量</button>
+    </form>
+    <h2 id="result"></h2>
+
+    <script>
+        document.getElementById('sleepForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const heartRate = parseFloat(document.getElementById('heartRate').value);
+            const respirationRate = parseFloat(document.getElementById('respirationRate').value);
+            const bodyTemperature = parseFloat(document.getElementById('bodyTemperature').value);
+            const pulse = parseFloat(document.getElementById('pulse').value);
+
+            // 基于输入参数计算睡眠质量评分的简单算法
+            let qualityScore = 100;
+
+            // 设定正常值范围
+            if (heartRate < 60 || heartRate > 100) qualityScore -= 20;  // 心率正常范围
+            if (respirationRate < 12 || respirationRate > 20) qualityScore -= 20;  // 呼吸率正常范围
+            if (bodyTemperature < 36.1 || bodyTemperature > 37.2) qualityScore -= 20;  // 体温正常范围
+            if (pulse < 60 || pulse > 100) qualityScore -= 20;  // 脉搏正常范围
+
+            // 确保评分在0到100之间
+            qualityScore = Math.max(0, Math.min(qualityScore, 100));
+
+            document.getElementById('result').innerText = `您的睡眠质量评分为：${qualityScore}`;
+        });
+    </script>
+</body>
+</html>
